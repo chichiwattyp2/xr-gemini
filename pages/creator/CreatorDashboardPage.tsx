@@ -14,6 +14,7 @@ const getStatusColor = (status: string) => {
         case 'Published': return 'green';
         case 'Processing': return 'blue';
         case 'Failed': return 'red';
+        case 'ReadyToPublish': return 'purple';
         default: return 'gray';
     }
 };
@@ -36,8 +37,8 @@ const CreatorDashboardPage: React.FC = () => {
     <div className="space-y-8">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold">Creator Dashboard</h1>
-          <p className="text-gray-500 dark:text-gray-400">Manage your volumetric projects and monitor their progress.</p>
+          <h1 className="text-3xl font-bold">Creator Hub</h1>
+          <p className="text-gray-500 dark:text-gray-400">Manage your projects, monitor jobs, and publish releases.</p>
         </div>
         <Link to="/creator/new">
           <Button>
@@ -103,9 +104,15 @@ const CreatorDashboardPage: React.FC = () => {
                                       <td className="p-4">{job.status === 'Published' ? 'Completed' : job.currentStage}</td>
                                       <td className="p-4 text-sm text-gray-500 dark:text-gray-400">{new Date(job.startedAt).toLocaleString()}</td>
                                       <td className="p-4">
-                                          <Link to={`/creator/job/${job.id}`}>
-                                              <Button variant="outline" size="sm">View Progress</Button>
-                                          </Link>
+                                          {job.status === 'ReadyToPublish' ? (
+                                            <Link to={`/creator/publish/${job.id}`}>
+                                                <Button size="sm">Review & Publish</Button>
+                                            </Link>
+                                          ) : (
+                                            <Link to={`/creator/job/${job.id}`}>
+                                                <Button variant="outline" size="sm">View Progress</Button>
+                                            </Link>
+                                          )}
                                       </td>
                                   </tr>
                               ))}

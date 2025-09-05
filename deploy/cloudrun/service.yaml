@@ -1,0 +1,21 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: volusphere-api
+spec:
+  template:
+    spec:
+      containers:
+        - image: us-central1-docker.pkg.dev/PROJECT_ID/volusphere/api:latest
+          env:
+            - name: PORT
+              value: "8080"
+            - name: PUBLIC_BASE
+              value: "https://YOUR_RUN_URL"
+            - name: REDIS_URL
+              value: "redis://YOUR_REDIS_HOST:6379"
+          ports: [{ containerPort: 8080 }]
+      containerConcurrency: 50
+  traffic:
+    - latestRevision: true
+      percent: 100

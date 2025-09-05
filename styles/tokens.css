@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .form-input {
+    @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500;
+  }
+  .form-checkbox {
+      @apply h-4 w-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500;
+  }
+}
+
+@layer utilities {
+  .bg-stage {
+    @apply bg-gray-900 bg-gradient-to-br from-gray-900 via-gray-900 to-blue-900/40;
+  }
+
+  .glass {
+    @apply bg-gray-500/10 backdrop-blur-xl border border-white/10;
+  }
+
+  .glow {
+    @apply transition-shadow duration-300;
+  }
+  
+  .glow-blue:hover {
+    @apply shadow-glow-blue;
+  }
+
+  .glow-purple:hover {
+    @apply shadow-glow-purple;
+  }
+  
+  .glow-pink:hover {
+    @apply shadow-glow-pink;
+  }
+  
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-accent-blue;
+  }
+}

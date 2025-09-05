@@ -1,8 +1,10 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 const Footer: React.FC = () => {
+  const { isCreator } = useAuth();
   return (
     <footer className="bg-gray-100 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -12,6 +14,7 @@ const Footer: React.FC = () => {
           </p>
           <div className="flex space-x-6">
             <Link to="/creator-guide" className="text-sm hover:underline">Creator Guide</Link>
+            {isCreator && <Link to="/creator/dashboard" className="text-sm hover:underline">Creator Hub</Link>}
             <Link to="/pricing" className="text-sm hover:underline">Pricing</Link>
             <Link to="#" className="text-sm hover:underline">Terms of Service</Link>
             <Link to="#" className="text-sm hover:underline">Privacy Policy</Link>

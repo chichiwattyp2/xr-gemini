@@ -1,43 +1,54 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../components/Button';
-import { Camera, Layers, PlayCircle, Headset } from 'lucide-react';
+import { Camera, Layers, PlayCircle, Code, ChevronRight } from 'lucide-react';
+import { MOCK_EXPERIENCES } from '../../data/mockData';
+import Carousel3D from '../../components/ui/Carousel3D';
+import ExperienceCard from '../../components/ExperienceCard';
+import LessonCard from '../../components/ui/LessonCard';
+import { XRBadge, DeviceBadge } from '../../components/ui/XRBadges';
+import { useAuth } from '../../hooks/useAuth';
 
-// FIX: Specify that the icon element can accept size and strokeWidth props.
 const FeatureCard: React.FC<{ icon: React.ReactElement<{ size?: number, strokeWidth?: number }>; title: string; description: string }> = ({ icon, title, description }) => (
-  <div className="flex flex-col items-center text-center p-6 bg-white dark:bg-gray-800/50 rounded-lg">
-    <div className="mb-4 text-primary-500 dark:text-primary-400">{React.cloneElement(icon, { size: 48, strokeWidth: 1.5 })}</div>
+  <div className="flex flex-col items-center text-center p-6 glass rounded-2xl">
+    <div className="mb-4 text-accent-blue">{React.cloneElement(icon, { size: 48, strokeWidth: 1.5 })}</div>
     <h3 className="text-xl font-semibold mb-2">{title}</h3>
-    <p className="text-gray-500 dark:text-gray-400">{description}</p>
+    <p className="text-gray-400">{description}</p>
   </div>
 );
 
 const HomePage: React.FC = () => {
+  const techDemos = MOCK_EXPERIENCES.filter(exp => exp.tags.includes('Tech Demo'));
+  const { isCreator } = useAuth();
+  
   return (
-    <div className="space-y-24">
+    <div className="space-y-24 md:space-y-32 bg-stage animate-fade-in">
       {/* Hero Section */}
-      <section className="text-center py-20">
-        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
-          Step Into <span className="text-primary-500">Volumetric Reality</span>
+      <section className="text-center pt-20 pb-10">
+        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white animate-slide-up [animation-delay:0.1s]">
+          Step Into <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-blue to-accent-purple">Volumetric Reality</span>
         </h1>
-        <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-500 dark:text-gray-400">
+        <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-300 animate-slide-up [animation-delay:0.2s]">
           VoluSphere is the end-to-end platform for creating, sharing, and experiencing breathtaking 6-DoF volumetric video.
         </p>
-        <div className="mt-8 flex justify-center gap-4">
+        <div className="mt-8 flex justify-center gap-4 animate-slide-up [animation-delay:0.3s]">
           <Link to="/explore">
-            <Button size="lg">Explore Experiences</Button>
+            <Button size="lg" className="focus-ring">Explore demos</Button>
           </Link>
-          <Link to="/creator-guide">
-            <Button size="lg" variant="secondary">Become a Creator</Button>
-          </Link>
+          {isCreator && (
+            <Link to="/creator/new">
+              <Button size="lg" variant="secondary" className="focus-ring bg-accent-blue text-white">Start creating</Button>
+            </Link>
+          )}
         </div>
       </section>
 
-      {/* "How It Works" Section */}
+      {/* "What is VoluSphere" Section */}
       <section>
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold">The Future of Immersive Content</h2>
-          <p className="mt-2 text-gray-500 dark:text-gray-400">From capture to headset, a seamless pipeline for true presence.</p>
+          <h2 className="text-3xl font-bold text-white">The Future of Immersive Content</h2>
+          <p className="mt-2 text-gray-400">From capture to headset, a seamless pipeline for true presence.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-8">
           <FeatureCard
@@ -58,38 +69,92 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Demo Reel Section */}
-       <section className="relative rounded-lg overflow-hidden">
-        <img src="https://picsum.photos/seed/reel/1200/600" alt="Demo reel" className="w-full h-auto object-cover" />
-        <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white text-center p-8">
-            <h2 className="text-3xl md:text-4xl font-bold">See it to Believe It</h2>
-            <p className="mt-2 max-w-xl">Watch our latest demo reel to see the incredible quality and immersion possible with the VoluSphere platform.</p>
-            <Button variant="outline" className="mt-6 text-white border-white hover:bg-white hover:text-black">
-                <PlayCircle className="mr-2"/>
-                Watch Demo Reel
-            </Button>
+       {/* For Creators Section */}
+      {isCreator && (
+        <section>
+          <div className="max-w-4xl mx-auto p-8 text-center glass rounded-2xl">
+            <h2 className="text-3xl font-bold text-white">For Creators</h2>
+            <p className="mt-2 text-gray-400 max-w-2xl mx-auto">Upload captures, process Gaussian splats, preview, and publish to the library.</p>
+            <div className="mt-6 flex justify-center gap-4">
+              <Link to="/creator/new">
+                <Button className="focus-ring bg-accent-blue text-white">New Project</Button>
+              </Link>
+              <Link to="/creator/dashboard">
+                <Button variant="secondary" className="focus-ring">Creator Dashboard</Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Tech Demos Carousel Section */}
+      <section>
+         <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-white">Technology in Motion</h2>
+          <p className="mt-2 text-gray-400">Explore demos that showcase the power of the platform.</p>
+        </div>
+        <Carousel3D>
+          {techDemos.map(exp => (
+            <div key={exp.id} className="w-full h-full p-2">
+              <ExperienceCard experience={exp} />
+            </div>
+          ))}
+        </Carousel3D>
+      </section>
+      
+      {/* Device/MR Badge Strip Section */}
+      <section className="py-10">
+        <div className="flex justify-center items-center flex-wrap gap-4 md:gap-8">
+            <XRBadge type="6DoF" />
+            <XRBadge type="MR-Ready" />
+            <DeviceBadge device="android_xr"/>
+            <DeviceBadge device="quest"/>
+            <DeviceBadge device="pcvr"/>
         </div>
       </section>
 
-      {/* Device Badges Section */}
-      <section className="text-center">
-        <h2 className="text-2xl font-bold">Experience Everywhere</h2>
-        <p className="mt-2 text-gray-500 dark:text-gray-400">Optimized for a growing ecosystem of XR hardware.</p>
-        <div className="mt-8 flex justify-center items-center gap-8 flex-wrap">
-          <div className="flex items-center gap-3 text-lg font-medium">
-            <Headset size={32}/>
-            <span>Android XR</span>
-          </div>
-          <div className="flex items-center gap-3 text-lg font-medium">
-            <Headset size={32}/>
-            <span>Meta Quest</span>
-          </div>
-          <div className="flex items-center gap-3 text-lg font-medium">
-            <Headset size={32}/>
-            <span>PCVR (SteamVR)</span>
-          </div>
+       {/* Learning Tracks Section */}
+      <section>
+         <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-white">Start Your Journey</h2>
+          <p className="mt-2 text-gray-400">Master volumetric creation with our guided learning tracks.</p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-8">
+            <LessonCard 
+                title="Volumetric Capture 101"
+                description="Learn the fundamentals of capturing high-quality footage for reconstruction."
+                progress={75}
+                linkTo="/creator-guide"
+            />
+             <LessonCard 
+                title="Gaussian Splatting Deep Dive"
+                description="Understand the technology behind 6-DoF volumetric video."
+                progress={30}
+                linkTo="/creator-guide"
+            />
+             <LessonCard 
+                title="Publishing for XR"
+                description="Optimize and package your experiences for native XR devices."
+                progress={0}
+                linkTo="/creator-guide"
+            />
         </div>
       </section>
+
+      {/* Final CTA */}
+      {isCreator && (
+        <section className="text-center py-10">
+          <h2 className="text-3xl font-bold text-white">Ready to Create?</h2>
+          <p className="mt-2 max-w-xl mx-auto text-gray-300">Join a community of pioneers building the next generation of immersive media. Sign up and start your first project today.</p>
+          <div className="mt-8">
+              <Link to="/creator/new">
+                  <Button size="lg" className="focus-ring bg-accent-blue text-white">
+                      Start Creating <ChevronRight className="ml-2"/>
+                  </Button>
+              </Link>
+          </div>
+        </section>
+      )}
     </div>
   );
 };

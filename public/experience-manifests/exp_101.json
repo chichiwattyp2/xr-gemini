@@ -1,0 +1,16 @@
+{
+  "id": "exp_101",
+  "title": "Skeletal Animation Demo",
+  "devices": ["pcvr"],
+  "mrReady": false,
+  "defaultQuality": "Base",
+  "defaultInterpolation": "Off",
+  "minPlayArea": "Any",
+  "assets": {
+    "splat": "https://cdn.example.com/exp_101/v1/splat.bin",
+    "index": "https://cdn.example.com/exp_101/v1/splat.index",
+    "lodTable": "https://cdn.example.com/exp_101/v1/lod.json",
+    "poster": "https://picsum.photos/seed/skeleton/1280/720",
+    "trailer": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+  }
+}

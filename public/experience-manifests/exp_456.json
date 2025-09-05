@@ -1,0 +1,16 @@
+{
+  "id": "exp_456",
+  "title": "Forest Meditation",
+  "devices": ["android_xr", "quest"],
+  "mrReady": false,
+  "defaultQuality": "Ultra",
+  "defaultInterpolation": "Off",
+  "minPlayArea": "Standing",
+  "assets": {
+    "splat": "https://cdn.example.com/exp_456/v1/splat.bin",
+    "index": "https://cdn.example.com/exp_456/v1/splat.index",
+    "lodTable": "https://cdn.example.com/exp_456/v1/lod.json",
+    "poster": "https://picsum.photos/seed/forest/1280/720",
+    "trailer": "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+  }
+}

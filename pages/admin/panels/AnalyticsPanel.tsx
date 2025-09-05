@@ -7,6 +7,10 @@ import Spinner from '../../../components/Spinner';
 import Card, { CardContent, CardHeader } from '../../../components/Card';
 
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
+const PIE_TOOLTIP_STYLE = {
+    backgroundColor: 'rgba(31, 41, 55, 0.8)', // bg-gray-800 with opacity
+    borderColor: 'rgba(75, 85, 99, 1)', // border-gray-600
+};
 
 const AnalyticsPanel: React.FC = () => {
   const [data, setData] = useState<AnalyticsData | null>(null);
@@ -40,12 +44,7 @@ const AnalyticsPanel: React.FC = () => {
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(128, 128, 128, 0.3)" />
               <XAxis dataKey="date" />
               <YAxis />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: 'rgba(31, 41, 55, 0.8)', // bg-gray-800 with opacity
-                  borderColor: 'rgba(75, 85, 99, 1)', // border-gray-600
-                }}
-              />
+              <Tooltip contentStyle={PIE_TOOLTIP_STYLE} />
               <Legend />
               <Line type="monotone" dataKey="users" stroke="#3b82f6" strokeWidth={2} dot={false} />
             </LineChart>
@@ -64,7 +63,7 @@ const AnalyticsPanel: React.FC = () => {
                                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                             ))}
                         </Pie>
-                        <Tooltip contentStyle={{ backgroundColor: 'rgba(31, 41, 55, 0.8)', borderColor: 'rgba(75, 85, 99, 1)' }} />
+                        <Tooltip contentStyle={PIE_TOOLTIP_STYLE} />
                         <Legend />
                     </PieChart>
                 </ResponsiveContainer>
@@ -79,7 +78,38 @@ const AnalyticsPanel: React.FC = () => {
                             <Cell fill="#3b82f6" />
                             <Cell fill="#6b7280" />
                         </Pie>
-                        <Tooltip contentStyle={{ backgroundColor: 'rgba(31, 41, 55, 0.8)', borderColor: 'rgba(75, 85, 99, 1)' }} />
+                        <Tooltip contentStyle={PIE_TOOLTIP_STYLE} />
+                        <Legend />
+                    </PieChart>
+                </ResponsiveContainer>
+             </CardContent>
+          </Card>
+           <Card>
+             <CardHeader><h3 className="font-semibold">Session Length Distribution</h3></CardHeader>
+             <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                    <BarChart data={data.sessionLength}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(128, 128, 128, 0.3)" />
+                        <XAxis dataKey="bucket" />
+                        <YAxis />
+                        <Tooltip contentStyle={PIE_TOOLTIP_STYLE} />
+                        <Legend />
+                        <Bar dataKey="count" fill="#10b981" />
+                    </BarChart>
+                </ResponsiveContainer>
+             </CardContent>
+          </Card>
+           <Card>
+             <CardHeader><h3 className="font-semibold">LOD Quality Distribution</h3></CardHeader>
+             <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                    <PieChart>
+                        <Pie data={data.lodDistribution} dataKey="value" nameKey="quality" cx="50%" cy="50%" outerRadius={100} fill="#8884d8" label>
+                            {data.lodDistribution.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                        </Pie>
+                        <Tooltip contentStyle={PIE_TOOLTIP_STYLE} />
                         <Legend />
                     </PieChart>
                 </ResponsiveContainer>

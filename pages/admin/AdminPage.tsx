@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
-import AnalyticsPanel from './panels/AnalyticsPanel';
-import PipelinesPanel from './panels/PipelinesPanel';
-import UsersPanel from './panels/UsersPanel';
-import ModerationPanel from './panels/ModerationPanel';
+import Analytics from './panels/Analytics';
+import PipelineHealth from './panels/PipelineHealth';
+import UsersOrgs from './panels/UsersOrgs';
+import ModerationQueue from './panels/ModerationQueue';
 import { BarChart2, Server, Users, Shield } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
@@ -22,13 +21,13 @@ const AdminPage: React.FC = () => {
   const renderContent = () => {
     switch (activeTab) {
       case 'analytics':
-        return <AnalyticsPanel />;
+        return <Analytics />;
       case 'pipelines':
-        return <PipelinesPanel />;
+        return <PipelineHealth />;
       case 'users':
-        return <UsersPanel />;
+        return <UsersOrgs />;
       case 'moderation':
-        return <ModerationPanel />;
+        return <ModerationQueue />;
       default:
         return null;
     }

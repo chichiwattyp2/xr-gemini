@@ -1,20 +1,18 @@
 import React from 'react';
-import Card, { CardContent, CardHeader } from '../../components/Card';
-import { Gamepad2, Move3d, PanelTop, Thermometer, BarChart } from 'lucide-react';
+import { Gamepad2, Move3d, PanelTop, Thermometer, BarChart, Tv, Minus, Plus } from 'lucide-react';
+import { XRBadge } from '../../components/ui/XRBadges';
+import Badge from '../../components/Badge';
 
-// FIX: Specify that the icon element can accept a size prop.
 const SpecSection: React.FC<{ icon: React.ReactElement<{ size?: number }>, title: string, children: React.ReactNode }> = ({ icon, title, children }) => (
-    <Card>
-        <CardHeader className="flex items-center space-x-4">
-            <div className="text-primary-500">{React.cloneElement(icon, { size: 28 })}</div>
+    <div className="glass p-6 rounded-2xl">
+        <div className="flex items-center space-x-4 mb-4">
+            <div className="text-accent-blue">{React.cloneElement(icon, { size: 28 })}</div>
             <h2 className="text-2xl font-bold">{title}</h2>
-        </CardHeader>
-        <CardContent>
-            <div className="prose prose-invert dark:prose-dark max-w-none">
-                {children}
-            </div>
-        </CardContent>
-    </Card>
+        </div>
+        <div className="prose prose-invert dark:prose-dark max-w-none text-gray-300">
+            {children}
+        </div>
+    </div>
 );
 
 const ViewerSpecPage: React.FC = () => {
@@ -33,14 +31,45 @@ const ViewerSpecPage: React.FC = () => {
             <li><strong>Re-center:</strong> Long-press the menu button to re-center your view and play space.</li>
           </ul>
         </SpecSection>
-
+        
         <SpecSection icon={<PanelTop />} title="HUD Controls">
-           <ul>
-            <li><strong>LOD Stepper:</strong> Manually cycle through LOD0 (Ultra) to LOD3 (Base) to balance quality and performance.</li>
-            <li><strong>Performance Mode:</strong> Switch between Base, High, and Ultra presets affecting resolution and post-processing.</li>
-            <li><strong>MR Toggle:</strong> Seamlessly switch between full VR immersion and Mixed Reality passthrough.</li>
-            <li><strong>Photo Mode:</strong> Capture high-resolution screenshots of your experience.</li>
-          </ul>
+           <p>A non-intrusive, wrist-mounted or floating HUD provides access to the following controls:</p>
+           {/* HUD Mock */}
+           <div className="mt-4 p-4 rounded-lg bg-black/30 border border-white/10">
+              <div className="flex items-center justify-between text-white font-mono text-sm mb-4">
+                <span>FPS: 89.9</span>
+                <span>v2.1.0</span>
+              </div>
+              <div className="space-y-3">
+                 {/* LOD Stepper */}
+                 <div className="flex items-center justify-between">
+                    <span className="font-semibold text-sm">LOD</span>
+                    <div className="flex items-center space-x-2 p-1 rounded-full bg-black/20">
+                      <button className="p-1 rounded-full hover:bg-white/20"><Minus size={14}/></button>
+                      {/* FIX: Replaced XRBadge with a generic Badge as "LOD0" is not a valid type for XRBadge. */}
+                      <Badge className="bg-gray-600 text-white px-3 py-1 font-semibold">LOD0</Badge>
+                      <button className="p-1 rounded-full hover:bg-white/20"><Plus size={14}/></button>
+                    </div>
+                 </div>
+                 {/* Perf Mode */}
+                 <div className="flex items-center justify-between">
+                    <span className="font-semibold text-sm">Performance</span>
+                    <div className="flex items-center p-1 rounded-full bg-black/20 text-xs">
+                        <button className="px-3 py-1 rounded-full">Base</button>
+                        <button className="px-3 py-1 rounded-full bg-accent-blue text-black">High</button>
+                        <button className="px-3 py-1 rounded-full">Ultra</button>
+                    </div>
+                 </div>
+                 {/* MR Toggle */}
+                 <div className="flex items-center justify-between">
+                    <span className="font-semibold text-sm">Mixed Reality</span>
+                    <button className="px-3 py-1 rounded-full text-xs flex items-center space-x-1.5 bg-accent-purple text-black">
+                        <Tv size={14}/>
+                        <span>On</span>
+                    </button>
+                 </div>
+              </div>
+           </div>
         </SpecSection>
         
         <SpecSection icon={<Thermometer />} title="Performance Targets">
@@ -53,14 +82,14 @@ const ViewerSpecPage: React.FC = () => {
 
         <SpecSection icon={<BarChart />} title="Analytics Events">
            <p>The viewer sends anonymous usage data to help creators understand engagement:</p>
-           <ul>
-            <li><code>enter_experience</code></li>
-            <li><code>time_in_scene</code></li>
-            <li><code>quality_change</code></li>
-            <li><code>perf_mode_change</code></li>
-            <li><code>mr_toggle</code></li>
-            <li><code>quit_reason</code></li>
-          </ul>
+           <div className="grid grid-cols-2 gap-x-4">
+              <code>enter_experience</code>
+              <code>time_in_scene</code>
+              <code>quality_change</code>
+              <code>perf_mode_change</code>
+              <code>mr_toggle</code>
+              <code>quit_reason</code>
+           </div>
         </SpecSection>
       </div>
     </div>

@@ -1,0 +1,120 @@
+openapi: 3.0.3
+info:
+  title: VoluSphere API
+  version: 0.1.0
+servers:
+  - url: http://localhost:8080/api
+paths:
+  /projects:
+    post:
+      summary: Create project & enqueue pipeline
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProject'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+  /jobs:
+    get:
+      summary: List processing jobs
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Job' }
+  /jobs/{id}:
+    get:
+      summary: Get job by id
+      parameters: [{ name: id, in: path, required: true, schema: { type: string } }]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Job' }
+  /experiences:
+    get:
+      summary: List experiences
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Experience' }
+  /experiences/{id}:
+    get:
+      summary: Get experience by id
+      parameters: [{ name: id, in: path, required: true, schema: { type: string } }]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Experience' }
+  /analytics/stats:
+    get:
+      summary: Get analytics stats
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Analytics' }
+components:
+  schemas:
+    CreateProject:
+      type: object
+      required: [title, description, tags, privacy, devices, defaultQuality, defaultInterpolation]
+      properties:
+        title: { type: string }
+        description: { type: string }
+        tags: { type: array, items: { type: string } }
+        privacy: { type: string, enum: [Private, Unlisted, Public] }
+        devices: { type: array, items: { type: string } }
+        defaultQuality: { type: string, enum: [Base, High, Ultra] }
+        defaultInterpolation: { type: string, enum: [Off, 120fps, 240fps] }
+    Job:
+      type: object
+      properties:
+        id: { type: string }
+        experienceId: { type: string }
+        title: { type: string }
+        status: { type: string, enum: [Queued, Running, Failed, Success] }
+        stage: { type: integer, minimum: 1, maximum: 7 }
+        logs: { type: array, items: { type: string } }
+        eta: { type: string }
+    Experience:
+      type: object
+      properties:
+        id: { type: string }
+        title: { type: string }
+        description: { type: string }
+        tags: { type: array, items: { type: string } }
+        devices: { type: array, items: { type: string } }
+        mrReady: { type: boolean }
+        defaultQuality: { type: string }
+        defaultInterpolation: { type: string }
+        manifestUrl: { type: string }
+        posterUrl: { type: string }
+        trailerUrl: { type: string }
+    Analytics:
+      type: object
+      properties:
+        dau: { type: integer }
+        mau: { type: integer }
+        mrUsagePct: { type: number }
+        deviceBreakdown:
+          type: array
+          items: { type: object, properties: { device: { type: string }, value: { type: integer } } }

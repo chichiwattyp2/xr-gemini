@@ -5,6 +5,7 @@ import { api } from '../../../services/api';
 import { ProcessingJob } from '../../../types';
 import Spinner from '../../../components/Spinner';
 import Badge from '../../../components/Badge';
+import { HardDrive } from 'lucide-react';
 
 const getStatusColor = (status: string) => {
     switch (status) {
@@ -37,7 +38,16 @@ const PipelinesPanel: React.FC = () => {
 
     return (
         <div className="space-y-6">
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <Card>
+                    <CardContent className="pt-6 flex items-center space-x-3">
+                        <HardDrive className="w-8 h-8 text-green-500" />
+                        <div>
+                            <p className="text-sm text-gray-500">Workers</p>
+                            <p className="text-2xl font-bold">10/10</p>
+                        </div>
+                    </CardContent>
+                </Card>
                 <Card>
                     <CardContent className="pt-6">
                         <p className="text-sm text-gray-500">Processing</p>

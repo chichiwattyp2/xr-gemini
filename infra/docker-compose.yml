@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  api:
+    build:
+      context: ../api
+      dockerfile: Dockerfile
+    image: volusphere-api:dev
+    container_name: volu_api
+    ports: ["8080:8080"]
+    environment:
+      - PORT=8080
+      - REDIS_URL=redis://redis:6379
+      - PUBLIC_BASE=http://localhost:8080
+    volumes:
+      - ../api/data:/usr/src/app/data
+    depends_on: [redis]
+
+  redis:
+    image: redis:7-alpine
+    container_name: volu_redis
+    ports: ["6379:6379"]

@@ -1,0 +1,16 @@
+{
+  "id": "exp_789",
+  "title": "Urban Explorer",
+  "devices": ["pcvr", "quest"],
+  "mrReady": true,
+  "defaultQuality": "High",
+  "defaultInterpolation": "240fps",
+  "minPlayArea": "3m x 3m",
+  "assets": {
+    "splat": "https://cdn.example.com/exp_789/v4/splat.bin",
+    "index": "https://cdn.example.com/exp_789/v4/splat.index",
+    "lodTable": "https://cdn.example.com/exp_789/v4/lod.json",
+    "poster": "https://picsum.photos/seed/urban/1280/720",
+    "trailer": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+  }
+}

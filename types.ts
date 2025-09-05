@@ -1,4 +1,3 @@
-
 export enum UserRole {
   Visitor = 'Visitor',
   Viewer = 'Viewer',
@@ -12,6 +11,16 @@ export interface User {
   role: UserRole;
   orgId?: string;
   avatarUrl: string;
+  library: string[]; // Array of experience IDs
+}
+
+export interface Organization {
+    id: string;
+    name: string;
+    ownerId: string;
+    seats: number;
+    seatsUsed: number;
+    plan: 'Creator' | 'Team';
 }
 
 export enum ExperienceStatus {
@@ -51,8 +60,10 @@ export interface Experience {
   privacy: 'Private' | 'Unlisted' | 'Public';
   posterUrl: string;
   trailerUrl: string;
+  screenshotUrls: string[];
   manifestUrl: string;
   createdAt: string;
+  releaseNotes?: string;
 }
 
 export enum JobStage {
@@ -71,7 +82,7 @@ export interface ProcessingJob {
   id: string;
   experienceId: string;
   experienceTitle: string;
-  status: 'Queued' | 'Processing' | 'Failed' | 'Published';
+  status: 'Queued' | 'Processing' | 'Failed' | 'Published' | 'ReadyToPublish';
   currentStage: JobStage;
   stageProgress: { [key in JobStage]?: number }; // Progress percentage 0-100
   logs: string[];
@@ -87,4 +98,5 @@ export interface AnalyticsData {
   sessionLength: { bucket: string, count: number }[];
   deviceBreakdown: { device: string, value: number }[];
   mrUsage: { label: string, value: number }[];
+  lodDistribution: { quality: Quality, value: number }[];
 }

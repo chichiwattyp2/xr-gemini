@@ -1,12 +1,16 @@
-
-import { Experience, User, UserRole, ExperienceStatus, Quality, Interpolation, ProcessingJob, JobStage, AnalyticsData } from '../types';
+import { Experience, User, UserRole, ExperienceStatus, Quality, Interpolation, ProcessingJob, JobStage, AnalyticsData, Organization } from '../types';
 
 export const MOCK_USERS: { [key in UserRole]: User } = {
-  [UserRole.Visitor]: { id: 'user_visitor', name: 'Visitor', role: UserRole.Visitor, avatarUrl: 'https://picsum.photos/seed/visitor/100' },
-  [UserRole.Viewer]: { id: 'user_viewer', name: 'Alex', role: UserRole.Viewer, avatarUrl: 'https://picsum.photos/seed/viewer/100' },
-  [UserRole.Creator]: { id: 'user_creator', name: 'Casey', role: UserRole.Creator, orgId: 'org_1', avatarUrl: 'https://picsum.photos/seed/creator/100' },
-  [UserRole.Admin]: { id: 'user_admin', name: 'Jordan', role: UserRole.Admin, orgId: 'org_1', avatarUrl: 'https://picsum.photos/seed/admin/100' },
+  [UserRole.Visitor]: { id: 'user_visitor', name: 'Visitor', role: UserRole.Visitor, avatarUrl: 'https://picsum.photos/seed/visitor/100', library: [] },
+  [UserRole.Viewer]: { id: 'user_viewer', name: 'Alex', role: UserRole.Viewer, avatarUrl: 'https://picsum.photos/seed/viewer/100', library: [] },
+  [UserRole.Creator]: { id: 'user_creator', name: 'Casey', role: UserRole.Creator, orgId: 'org_1', avatarUrl: 'https://picsum.photos/seed/creator/100', library: [] },
+  [UserRole.Admin]: { id: 'user_admin', name: 'Jordan', role: UserRole.Admin, orgId: 'org_1', avatarUrl: 'https://picsum.photos/seed/admin/100', library: [] },
 };
+
+export const MOCK_ORGS: Organization[] = [
+    { id: 'org_1', name: 'VoluVision Studios', ownerId: 'user_creator', seats: 5, seatsUsed: 3, plan: 'Team' },
+    { id: 'org_2', name: 'Zenith XR', ownerId: 'user_viewer', seats: 1, seatsUsed: 1, plan: 'Creator'},
+];
 
 export const MOCK_EXPERIENCES: Experience[] = [
   {
@@ -27,9 +31,11 @@ export const MOCK_EXPERIENCES: Experience[] = [
     minPlayArea: '2m x 2m',
     privacy: 'Public',
     posterUrl: 'https://picsum.photos/seed/dance/800/600',
-    trailerUrl: 'https://example.com/trailer.mp4',
-    manifestUrl: 'https://cdn.example.com/exp_123/v2/manifest.json',
+    trailerUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    screenshotUrls: ['https://picsum.photos/seed/dance_ss1/1280/720', 'https://picsum.photos/seed/dance_ss2/1280/720', 'https://picsum.photos/seed/dance_ss3/1280/720'],
+    manifestUrl: '/experience-manifests/exp_123.json',
     createdAt: '2023-10-26T10:00:00Z',
+    releaseNotes: 'Version 2.0: Improved lighting and temporal stabilization.',
   },
   {
     id: 'exp_456',
@@ -49,9 +55,11 @@ export const MOCK_EXPERIENCES: Experience[] = [
     minPlayArea: 'Standing',
     privacy: 'Public',
     posterUrl: 'https://picsum.photos/seed/forest/800/600',
-    trailerUrl: 'https://example.com/trailer.mp4',
-    manifestUrl: 'https://cdn.example.com/exp_456/v1/manifest.json',
+    trailerUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+    screenshotUrls: ['https://picsum.photos/seed/forest_ss1/1280/720', 'https://picsum.photos/seed/forest_ss2/1280/720'],
+    manifestUrl: '/experience-manifests/exp_456.json',
     createdAt: '2023-11-15T14:30:00Z',
+    releaseNotes: 'Initial public release.',
   },
   {
     id: 'exp_789',
@@ -71,8 +79,9 @@ export const MOCK_EXPERIENCES: Experience[] = [
     minPlayArea: '3m x 3m',
     privacy: 'Unlisted',
     posterUrl: 'https://picsum.photos/seed/urban/800/600',
-    trailerUrl: 'https://example.com/trailer.mp4',
-    manifestUrl: 'https://cdn.example.com/exp_789/v4/manifest.json',
+    trailerUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    screenshotUrls: ['https://picsum.photos/seed/urban_ss1/1280/720', 'https://picsum.photos/seed/urban_ss2/1280/720', 'https://picsum.photos/seed/urban_ss3/1280/720'],
+    manifestUrl: '/experience-manifests/exp_789.json',
     createdAt: '2023-12-01T09:00:00Z',
   },
    {
@@ -93,9 +102,33 @@ export const MOCK_EXPERIENCES: Experience[] = [
     minPlayArea: 'Any',
     privacy: 'Public',
     posterUrl: 'https://picsum.photos/seed/skeleton/800/600',
-    trailerUrl: 'https://example.com/trailer.mp4',
-    manifestUrl: 'https://cdn.example.com/exp_101/v1/manifest.json',
+    trailerUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+    screenshotUrls: ['https://picsum.photos/seed/skeleton_ss1/1280/720'],
+    manifestUrl: '/experience-manifests/exp_101.json',
     createdAt: '2024-01-10T11:00:00Z',
+  },
+  {
+    id: 'exp_publish_ready',
+    title: 'Mountain Hike',
+    description: 'A beautiful and serene hike through a sunlit mountain pass. Captured in stunning detail, this experience is perfect for unwinding and enjoying nature.',
+    tags: ['Nature', 'Hike', 'Relaxation', 'Mountains'],
+    creatorId: 'user_creator',
+    creatorName: 'Casey',
+    version: 1,
+    status: ExperienceStatus.Draft,
+    devices: ['android_xr', 'quest'],
+    mrReady: false,
+    defaultQuality: Quality.High,
+    defaultInterpolation: Interpolation.FPS120,
+    runtime: '8m 10s',
+    fileSize: '1.1 GB',
+    minPlayArea: 'Standing',
+    privacy: 'Public',
+    posterUrl: 'https://picsum.photos/seed/hike/800/600',
+    trailerUrl: '',
+    screenshotUrls: [],
+    manifestUrl: '',
+    createdAt: '2024-01-20T12:00:00Z',
   },
 ];
 
@@ -119,6 +152,27 @@ export const MOCK_JOBS: ProcessingJob[] = [
     thumbnails: ['https://picsum.photos/seed/dance_thumb1/200', 'https://picsum.photos/seed/dance_thumb2/200'],
     startedAt: '2023-10-20T10:00:00Z',
     finishedAt: '2023-10-20T10:45:00Z',
+    eta: '0 minutes',
+  },
+   {
+    id: 'job_4',
+    experienceId: 'exp_publish_ready',
+    experienceTitle: 'Mountain Hike',
+    status: 'ReadyToPublish',
+    currentStage: JobStage.CDNPublish,
+    stageProgress: {
+        [JobStage.Ingest]: 100,
+        [JobStage.Reconstruct]: 100,
+        [JobStage.TemporalStabilization]: 100,
+        [JobStage.Interpolation]: 100,
+        [JobStage.LODBaking]: 100,
+        [JobStage.Packaging]: 100,
+        [JobStage.CDNPublish]: 100,
+    },
+    logs: ['CDN publish complete. Ready for final review and publishing.'],
+    thumbnails: ['https://picsum.photos/seed/hike_thumb1/200'],
+    startedAt: '2023-12-06T14:00:00Z',
+    finishedAt: '2023-12-06T14:25:00Z',
     eta: '0 minutes',
   },
   {
@@ -186,5 +240,10 @@ export const MOCK_ANALYTICS_DATA: AnalyticsData = {
   mrUsage: [
     { label: 'MR On', value: 65 },
     { label: 'MR Off', value: 35 },
+  ],
+  lodDistribution: [
+      { quality: Quality.Ultra, value: 25 },
+      { quality: Quality.High, value: 55 },
+      { quality: Quality.Base, value: 20 },
   ]
 };

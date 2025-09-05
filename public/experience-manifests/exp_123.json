@@ -1,0 +1,16 @@
+{
+  "id": "exp_123",
+  "title": "Studio Dance",
+  "devices": ["android_xr", "quest", "pcvr"],
+  "mrReady": true,
+  "defaultQuality": "High",
+  "defaultInterpolation": "120fps",
+  "minPlayArea": "2m x 2m",
+  "assets": {
+    "splat": "https://cdn.example.com/exp_123/v2/splat.bin",
+    "index": "https://cdn.example.com/exp_123/v2/splat.index",
+    "lodTable": "https://cdn.example.com/exp_123/v2/lod.json",
+    "poster": "https://picsum.photos/seed/dance/1280/720",
+    "trailer": "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+  }
+}
