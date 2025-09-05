@@ -1,0 +1,5 @@
+{
+  "name": "VoluSphere XR Platform",
+  "description": "A web platform for uploading, processing, and exploring Gaussian-splat volumetric video experiences, designed to integrate with a native XR viewer application.",
+  "requestFramePermissions": []
+}

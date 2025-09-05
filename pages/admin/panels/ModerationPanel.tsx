@@ -1,0 +1,52 @@
+
+import React from 'react';
+import Card, { CardContent, CardHeader } from '../../../components/Card';
+import Button from '../../../components/Button';
+
+const flaggedContent = [
+    { id: 'exp_789', title: 'Urban Explorer', reason: 'Inappropriate Content', flaggedBy: 'user_viewer', date: '2023-12-10' },
+];
+
+const ModerationPanel: React.FC = () => {
+    return (
+        <Card>
+            <CardHeader>
+                <h3 className="font-semibold">Moderation Queue</h3>
+            </CardHeader>
+            <CardContent className="p-0">
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left">
+                        <thead className="bg-gray-50 dark:bg-gray-700/50">
+                            <tr>
+                                <th className="p-4 font-semibold">Content</th>
+                                <th className="p-4 font-semibold">Reason</th>
+                                <th className="p-4 font-semibold">Flagged By</th>
+                                <th className="p-4 font-semibold">Date</th>
+                                <th className="p-4 font-semibold">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {flaggedContent.map(item => (
+                                <tr key={item.id} className="border-b dark:border-gray-700 last:border-b-0">
+                                    <td className="p-4 font-medium">{item.title} ({item.id})</td>
+                                    <td className="p-4">{item.reason}</td>
+                                    <td className="p-4 font-mono text-xs">{item.flaggedBy}</td>
+                                    <td className="p-4">{item.date}</td>
+                                    <td className="p-4 space-x-2">
+                                        <Button size="sm" variant="outline">Review</Button>
+                                        <Button size="sm" variant="secondary">Dismiss</Button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                     {flaggedContent.length === 0 && (
+                        <p className="p-8 text-center text-gray-500">The moderation queue is empty.</p>
+                     )}
+                </div>
+            </CardContent>
+        </Card>
+    );
+};
+
+export default ModerationPanel;
